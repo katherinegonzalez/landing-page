@@ -409,10 +409,6 @@ footer {
         order: 2;
     }
 
-    .home__container img{
-        width: 500px;
-    }
-
     /** Features Section **/
     
     .features__content_row {
@@ -483,11 +479,3 @@ footer {
     
 }
 
-@media only screen and (max-width: 845px) {
-
-    /** Home Section **/
-
-    .home__container img{
-        width: 100%;
-    }
-}
