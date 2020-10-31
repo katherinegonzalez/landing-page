@@ -4,10 +4,10 @@ window.addEventListener('load', () => {
   setTimeout(() => { // To wait until posts are added to the DOM
     hideLoading();
     glider();
-    
   }, 1000);
 });
 
+/** Hide loading and show carousel */
 function hideLoading() {
   const loading = document.getElementById('loading');
   const gliderContain = document.getElementById('gliderContain');
@@ -16,6 +16,7 @@ function hideLoading() {
 
 }
 
+/** Show or hide the nav menu when click on menu button on mobile */
 function navMenuControl () { 
   const navButton = document.getElementById('navButton');
   const navMenu = document.getElementById('navMenu');
@@ -31,6 +32,7 @@ function navMenuControl () {
   };
 }
 
+/** Implement carousel with Glider js library */
 function glider(){
   new Glider(document.querySelector('.glider'), {
     slidesToShow: 1,
@@ -52,6 +54,7 @@ function glider(){
   });
 }
 
+/** Show the content of the carousel according to the list of posts with users */
 async function showCarouselElements() {
   const testimonialContent = document.getElementById('testimonalsContent');
   const postsWithUsers = await getPostsWithUsers();
@@ -63,48 +66,42 @@ async function showCarouselElements() {
   });
 }
 
-function setPost(post, user){
+/** Set the post and user to the html post */
+function setPost(post, user) {
   return '<div class="testimonials__content">'+
   '<img src="./assets/images/person_3.jpg" alt="Blog Person"/>'+
   '<p><em>"'+post+'"</em></p>'+
   '<span class="testimonials__autor">'+user+'</span></div>';
 }
 
-
+/** Get posts from service */
 async function getPosts(){
   const urlPosts = 'https://jsonplaceholder.typicode.com/posts';
   const postsResponse = await fetch(urlPosts);
   const postsData = await postsResponse.json();
-  // console.log('a', a);
   return postsData;
-
-  // return postsResponse.json();
 }
 
+/** Get users from service */
 async function getUsers(){
   const urlUsers = 'https://jsonplaceholder.typicode.com/users';
   const usersResponse = await fetch(urlUsers);
   const usersData = await usersResponse.json();
   return usersData;
-
-  // return postsResponse.json();
 }
 
+/** Get posts with user data */
 async function getPostsWithUsers() {
-  const posts = await getPosts();
-  console.log(posts);
-  const users = await getUsers();
   let usersDisctionary = {};
-
   let postWithUser = [];
-
   let postWithUsersUnique = []; // just show one post for user
-
+  
+  const posts = await getPosts();
+  const users = await getUsers();
+  
   users.forEach(user => {
     usersDisctionary[user.id] = user;
   });
-
-  console.log('usersDisctionary', usersDisctionary);
 
   postWithUser = posts.map(post => {
     if(usersDisctionary[post.userId]) {
@@ -114,33 +111,17 @@ async function getPostsWithUsers() {
   });
 
   postWithUsersUnique = getUnique(postWithUser, 'userId');
-
-  console.log('postWithUser', postWithUsersUnique);
-
   return postWithUsersUnique;
 
 }
 
-function getUnique(arr, comp) {
+/** Util function to get unique an array */
+function getUnique(array, attr) {
+  // store the comparison  values in array
+  const unique =  array.map(element => element[attr])
+    .map((element, i, final) => final.indexOf(element) === i && i) // store the indexes of the unique objects
+    .filter((element) => array[element]).map(element => array[element]); // eliminate the false indexes & return unique objects
 
-    // store the comparison  values in array
-  const unique =  arr.map(e => e[comp])
-
-  // store the indexes of the unique objects
-  .map((e, i, final) => final.indexOf(e) === i && i)
-
-  // eliminate the false indexes & return unique objects
-  .filter((e) => arr[e]).map(e => arr[e]);
-
-return unique;
+  return unique;
 }
 
-
-
-// getPostsWithUsers();
-
-// getPosts();
-
-/*getPosts().then(data => {
-  console.log('posts', data);
-})*/
