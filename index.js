@@ -2,12 +2,18 @@ window.addEventListener('load', () => {
   navMenuControl();
   showCarouselElements();
   setTimeout(() => { // To wait until posts are added to the DOM
+    hideLoading();
     glider();
+    
   }, 1000);
 });
 
-function showLoading() {
-  
+function hideLoading() {
+  const loading = document.getElementById('loading');
+  const gliderContain = document.getElementById('gliderContain');
+  loading.style.display = "none";
+  gliderContain.style.display = "block"
+
 }
 
 function navMenuControl () { 
@@ -48,20 +54,18 @@ function glider(){
 
 async function showCarouselElements() {
   const testimonialContent = document.getElementById('testimonalsContent');
-  //let testiomonialPost = '<div class="testimonials__content">'+
-  //'<img src="./assets/images/person_1.jpg" alt="Blog Person"/>'+
-  //'<p><em>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae eros velit. Morbi scelerisque semper leo non efficitur. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae eros velit. Morbi scelerisque semper leo non efficitur. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."</em></p>'+
-  //'<span class="testimonials__autor">Jhon Smith</span></div>';
   const postsWithUsers = await getPostsWithUsers();
-  postsWithUsers.forEach(post => {
-    let testiomonialPost = setPost(post.body, post.user.name);
-    testimonialContent.insertAdjacentHTML('afterbegin', testiomonialPost);   
+  postsWithUsers.forEach((post, index) => {
+    if (index < 4) {
+      let testiomonialPost = setPost(post.body, post.user.name);
+      testimonialContent.insertAdjacentHTML('afterbegin', testiomonialPost); 
+    }
   });
 }
 
 function setPost(post, user){
   return '<div class="testimonials__content">'+
-  '<img src="./assets/images/person_1.jpg" alt="Blog Person"/>'+
+  '<img src="./assets/images/person_3.jpg" alt="Blog Person"/>'+
   '<p><em>"'+post+'"</em></p>'+
   '<span class="testimonials__autor">'+user+'</span></div>';
 }

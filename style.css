@@ -12,6 +12,19 @@ ul {
     list-style-type: none;
 }
 
+.loading {
+    display: flex;
+    flex:1;
+    height: 250px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.glider-contain {
+    display: none;
+}
+
 header {
     margin: 10px 20px;
 }
