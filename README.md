@@ -2,7 +2,7 @@
 
 This is a landing page to the Modyo challenge.
 
-## Libraries used 📋
+## Libraries 📋
 
 * [Glider JS](https://nickpiscitelli.github.io/Glider.js/): this library was used to implement the carousel in the page.
   
